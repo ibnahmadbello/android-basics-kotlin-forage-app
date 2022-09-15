@@ -24,6 +24,7 @@ import androidx.room.Dao
 interface ForageableDao {
 
     // TODO: implement a method to retrieve all Forageables from the database
+    fun get
 
     // TODO: implement a method to retrieve a Forageable from the database by id
 
