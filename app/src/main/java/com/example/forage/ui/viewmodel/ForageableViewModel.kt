@@ -30,12 +30,12 @@ class ForageableViewModel(
     private val forageableDao: ForageableDao
 ): ViewModel() {
 
-    // TODO: create a property to set to a list of all forageables from the DAO
     val allForageables: LiveData<List<Forageable>> = forageableDao.getForageables().asLiveData()
 
 
-    // TODO : create method that takes id: Long as a parameter and retrieve a Forageable from the
-    //  database by id via the DAO.
+    fun getForageable(id: Long): LiveData<Forageable>{
+        return forageableDao.getForageable(id).asLiveData()
+    }
 
     fun addForageable(
         name: String,
@@ -50,8 +50,9 @@ class ForageableViewModel(
             notes = notes
         )
 
-    // TODO: launch a coroutine and call the DAO method to add a Forageable to the database within it
-
+        viewModelScope.launch {
+            forageableDao.insert(forageable)
+        }
     }
 
     fun updateForageable(
@@ -69,13 +70,13 @@ class ForageableViewModel(
             notes = notes
         )
         viewModelScope.launch(Dispatchers.IO) {
-            // TODO: call the DAO method to update a forageable to the database here
+            forageableDao.update(forageable)
         }
     }
 
     fun deleteForageable(forageable: Forageable) {
         viewModelScope.launch(Dispatchers.IO) {
-            // TODO: call the DAO method to delete a forageable to the database here
+            forageableDao.delete(forageable)
         }
     }
 
@@ -89,7 +90,7 @@ class ForageableViewModelFactory(private val forageableDao: ForageableDao) : Vie
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ForageableViewModel::class.java)){
             @Suppress("UNCHECKED_CAST")
-            return ForageableViewModel(forageableDao) as t
+            return ForageableViewModel(forageableDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

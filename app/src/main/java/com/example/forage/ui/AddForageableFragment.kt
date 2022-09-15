@@ -69,11 +69,9 @@ class AddForageableFragment : Fragment() {
         val id = navigationArgs.id
         if (id > 0) {
 
-            // TODO: Observe a Forageable that is retrieved by id, set the forageable variable,
-            //  and call the bindForageable method
             viewModel.getForageable(id).observe(this.viewLifecycleOwner){ selectedItem ->
-                item = selectedItem
-                bindForageable(item)
+                forageable = selectedItem
+                bindForageable(forageable)
             }
 
             binding.deleteBtn.visibility = View.VISIBLE

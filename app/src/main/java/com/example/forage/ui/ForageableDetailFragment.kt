@@ -64,10 +64,9 @@ class ForageableDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.id
-        // TODO: Observe a forageable that is retrieved by id, set the forageable variable,
-        //  and call the bind forageable method
+
         viewModel.getForageable(id).observe(this.viewLifecycleOwner){ selectedItem ->
-            item = selectedItem
+            forageable = selectedItem
             bindForageable()
         }
     }
